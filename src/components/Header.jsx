@@ -1,9 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { signOutAPI } from './../actions'
+import { signOutAPI } from './../actions';
+import { useHistory } from "react-router-dom";
 
 function Header(props) {
+  let history = useHistory();
+  function handleClick() {
+    history.push("/")
+    history.go(0)
+    app.auth().signOut()
+    props.signOut()
+  } 
   return (
     <Container>
       <Content>
@@ -55,7 +63,6 @@ function Header(props) {
                 <span>Home</span>
               </a>
             </NavList>
-
             <NavList>
               <a>
                 <svg
@@ -69,7 +76,6 @@ function Header(props) {
                 <span>My Network</span>
               </a>
             </NavList>
-
             <NavList>
               <a>
                 <svg
@@ -83,7 +89,6 @@ function Header(props) {
                 <span>Jobs</span>
               </a>
             </NavList>
-
             <NavList>
               <a>
                 <svg
@@ -97,7 +102,6 @@ function Header(props) {
                 <span>Messaging</span>
               </a>
             </NavList>
-
             <NavList>
               <a>
                 <svg
@@ -111,13 +115,12 @@ function Header(props) {
                 <span>Notifications</span>
               </a>
             </NavList>
-
             <User>
               <a>
                 {props.user && props.user.photoURL ? (
                   <img src={props.user.photoURL} alt="" /> 
                  ) : ( 
-                  <img src="./Assets/user.svg" alt="" />
+                  <img src="./images/user.svg" alt="" />
                  )} 
                 <span>
                   Me
@@ -132,7 +135,8 @@ function Header(props) {
                 </span>
               </a>
 
-              <SignOut onClick={()=> props.signOut()}>
+              {/* <SignOut onClick={()=> props.signOut()}> */}
+              <SignOut onClick={handleClick}>
                 <a>Sign Out</a>
               </SignOut>
             </User>
@@ -176,7 +180,6 @@ const Container = styled.div`
   width: 100vw;
   z-index: 100;
 `;
-
 const Content = styled.div`
   display: flex;
   align-items: center;
@@ -184,12 +187,10 @@ const Content = styled.div`
   min-height: 100%;
   max-width: 1128px;
 `;
-
 const Logo = styled.span`
   margin-right: 8px;
   font-size: 0px;
 `;
-
 const Search = styled.div`
   opacity: 1;
   flex-grow: 1;
@@ -213,7 +214,6 @@ const Search = styled.div`
     }
   }
 `;
-
 const SearchIcon = styled.div`
   width: 40px;
   position: absolute;
@@ -227,7 +227,6 @@ const SearchIcon = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
 const Nav = styled.nav`
   margin-left: auto;
   display: block;
@@ -239,7 +238,6 @@ const Nav = styled.nav`
     left: 0;
   }
 `;
-
 const NavListWrap = styled.ul`
   display: flex;
   flex-wrap: no-wrap;
@@ -258,7 +256,6 @@ const NavListWrap = styled.ul`
     }
   }
 `;
-
 const NavList = styled.li`
   display: flex;
   align-items: center;
@@ -293,7 +290,6 @@ const NavList = styled.li`
     }
   }
 `;
-
 const SignOut = styled.div`
   position: absolute;
   top: 45px;
@@ -305,8 +301,8 @@ const SignOut = styled.div`
   transition-duration: 167ms;
   text-align: center;
   display: none;
+  cursor: pointer;
 `;
-
 const User = styled(NavList)`
   a > img {
     width: 24px;
@@ -324,11 +320,9 @@ const User = styled(NavList)`
     }
   }
 `;
-
 const Work = styled(User)`
   border-left: 1px solid rgba(0, 0, 0, 0.08);
 `;
-
 
 const mapStateToProps = (state) =>{
   return{
@@ -336,7 +330,7 @@ const mapStateToProps = (state) =>{
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch) => ({ 
   signOut: () => dispatch(signOutAPI())
 });
 
